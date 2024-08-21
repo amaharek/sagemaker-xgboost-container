@@ -10,7 +10,7 @@ import signal
 import sys
 import traceback
 from io import StringIO
-
+import mlflow 
 import flask
 import pandas as pd
 import xgboost
@@ -29,8 +29,8 @@ class ScoringService(object):
     def get_model(cls):
         """Get the model object for this instance, loading it if it's not already loaded."""
         if cls.model == None:
-            with open(os.path.join(model_path, "xgboost.pkl"), "rb") as inp:
-                cls.model = pickle.load(inp)
+            with open(os.path.join(model_path, "model.xgb"), "rb") as inp:
+                cls.model = mlflow.xgboost.load(inp)
         return cls.model
 
     @classmethod
