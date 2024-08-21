@@ -1,7 +1,7 @@
 ARG SAGEMAKER_XGBOOST_VERSION=2.1-1
 ARG PYTHON_VERSION=3.10
 
-FROM sagemaker-xgboost-container:base
+FROM 970054061606.dkr.ecr.us-east-1.amazonaws.com/sagemaker-xgboost:base
 
 
 ARG SAGEMAKER_XGBOOST_VERSION
