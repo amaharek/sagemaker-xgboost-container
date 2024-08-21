@@ -19,4 +19,7 @@ ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
 ENV PATH="/opt/ml/code:${PATH}"
 
+COPY xgboost /opt/ml/code
 WORKDIR /opt/ml/code
+RUN chmod +x /opt/ml/code/train
+RUN chmod +x /opt/ml/code/serve
