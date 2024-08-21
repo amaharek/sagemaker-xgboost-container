@@ -4,7 +4,6 @@ gunicorn==23.0.0
 numpy==2.1.0
 pandas==2.2.2
 requests==2.32.3
-sagemaker-containers==2.8.6.post2
 sagemaker-inference==1.10.1
 scikit-learn==1.5.1
 scipy==1.14.1
