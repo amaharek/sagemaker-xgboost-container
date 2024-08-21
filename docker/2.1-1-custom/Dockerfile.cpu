@@ -19,7 +19,4 @@ ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
 ENV PATH="/opt/ml/code:${PATH}"
 
-RUN chmod +x /opt/ml/code/train
-RUN chmod +x /opt/ml/code/serve
-
 WORKDIR /opt/ml/code
