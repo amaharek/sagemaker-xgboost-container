@@ -7,7 +7,7 @@ FROM python:3.10-slim
 
 RUN apt-get update
 RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:deadsnakes/ppa
+# RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 
 RUN python -m pip install pip --upgrade
