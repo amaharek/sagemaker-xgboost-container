@@ -15,7 +15,8 @@ RUN python -m pip install pip --upgrade
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
          wget \
          nginx \
-         libgcc-7-dev \ 
+         gcc \ 
+         libgcc-8-dev  \ 
          ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
