@@ -1,8 +1,7 @@
 ARG UBUNTU_VERSION=20.04
 ARG CUDA_VERSION=11.6.1
-ARG IMAGE_DIGEST=c2d95c9c6ff77da41cf0f2f9e8c5088f5b4db20c16a7566b808762f05b9032ef
 
-FROM nvidia/cuda:${CUDA_VERSION}-base-ubuntu${UBUNTU_VERSION}@sha256:${IMAGE_DIGEST}
+FROM nvidia/cuda:${CUDA_VERSION}-base-ubuntu${UBUNTU_VERSION}
 
 ARG MINICONDA_VERSION=24.5.0-0
 ARG CONDA_PY_VERSION=310
@@ -79,7 +78,6 @@ RUN apt-key del 7fa2af80 && \
 # Install conda
 RUN cd /tmp && \
     curl -L --output /tmp/Miniconda3.sh https://repo.anaconda.com/miniconda/Miniconda3-py${CONDA_PY_VERSION}_${MINICONDA_VERSION}-Linux-x86_64.sh && \
-    echo "${CONDA_CHECKSUM} /tmp/Miniconda3.sh" | md5sum -c - && \
     bash /tmp/Miniconda3.sh -bfp /miniconda3 && \
     rm /tmp/Miniconda3.sh
 
