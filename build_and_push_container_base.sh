@@ -4,7 +4,7 @@ account=$(aws sts get-caller-identity --query Account --output text)
 # Get the region defined in the current configuration (default to us-west-2 if none defined)
 region=$(aws configure get region)
 
-fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:latest"
+fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:base"
 
 # If the repository doesn't exist in ECR, create it.
 aws ecr describe-repositories --repository-names "${algorithm_name}" > /dev/null 2>&1
