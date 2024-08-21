@@ -8,11 +8,10 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
-    pip install flask gevent gunicorn && \
+    pip install gevent && \
         rm -rf /root/.cache
 
-# Install xgboost 2.1.1
-RUN pip install xgboost==2.1.1
+RUN pip install -r requirements.txt
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=TRUE
