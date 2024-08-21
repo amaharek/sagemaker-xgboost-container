@@ -1,4 +1,4 @@
-algorithm_name=sagemaker-xgboost-container
+algorithm_name=sagemaker-xgboost
 account=$(aws sts get-caller-identity --query Account --output text)
 
 # Get the region defined in the current configuration (default to us-west-2 if none defined)

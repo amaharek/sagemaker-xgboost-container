@@ -1,7 +1,7 @@
-ARG SAGEMAKER_XGBOOST_VERSION=1.7-1
+ARG SAGEMAKER_XGBOOST_VERSION=2.1-1
 ARG PYTHON_VERSION=3.10
 
-FROM xgboost-container-base:${SAGEMAKER_XGBOOST_VERSION}-cpu-py3
+FROM sagemaker-xgboost:${SAGEMAKER_XGBOOST_VERSION}-cpu-py3
 
 ARG SAGEMAKER_XGBOOST_VERSION
 
@@ -12,7 +12,7 @@ COPY requirements.txt /requirements.txt
 RUN python3 -m pip install -r /requirements.txt && rm /requirements.txt
 
 # Install smdebug from source
-RUN python3 -m pip install git+https://github.com/awslabs/sagemaker-debugger.git@1.0.29
+RUN python3 -m pip install git+https://github.com/awslabs/sagemaker-debugger.git@1.0.32
 
 
 ###########################
