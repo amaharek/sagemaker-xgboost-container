@@ -17,7 +17,9 @@ RUN pip install xgboost==2.1.1
 # Set environment variables
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
-ENV PATH="/opt/program:${PATH}"
+ENV PATH="/opt/ml/code:${PATH}"
 
-COPY NER /opt/program
-WORKDIR /opt/program
+RUN chmod +x /opt/ml/code/train
+RUN chmod +x /opt/ml/code/serve
+
+WORKDIR /opt/ml/code
