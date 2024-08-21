@@ -1,8 +1,4 @@
-ARG UBUNTU_VERSION=20.04
-ARG CUDA_VERSION=11.6.1
-ARG IMAGE_DIGEST=c2d95c9c6ff77da41cf0f2f9e8c5088f5b4db20c16a7566b808762f05b9032ef
-
-FROM nvidia/cuda:${CUDA_VERSION}-base-ubuntu${UBUNTU_VERSION}@sha256:${IMAGE_DIGEST}
+FROM nvidia/cuda:12.1.1-base-ubuntu20.04
 
 ARG MINICONDA_VERSION=24.5.0-0
 ARG CONDA_PY_VERSION=310
@@ -22,6 +18,7 @@ ENV LC_ALL=C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONIOENCODING='utf-8'
+ENV PATH=/opt/conda/bin:$PATH
 
 RUN apt-key del 7fa2af80 && \
         apt-get update && apt-get install -y --no-install-recommends wget && \
@@ -77,13 +74,64 @@ RUN apt-key del 7fa2af80 && \
     rm -rf /var/lib/apt/lists/*
 
 # Install conda
-RUN cd /tmp && \
-    curl -L --output /tmp/Miniconda3.sh https://repo.anaconda.com/miniconda/Miniconda3-py${CONDA_PY_VERSION}_${MINICONDA_VERSION}-Linux-x86_64.sh && \
-    echo "${CONDA_CHECKSUM} /tmp/Miniconda3.sh" | md5sum -c - && \
-    bash /tmp/Miniconda3.sh -bfp /miniconda3 && \
-    rm /tmp/Miniconda3.sh
+# RUN cd /tmp && \
+#     curl -L --output /tmp/Miniconda3.sh https://repo.anaconda.com/miniconda/Miniconda3-py${CONDA_PY_VERSION}_${MINICONDA_VERSION}-Linux-x86_64.sh && \
+#     echo "${CONDA_CHECKSUM} /tmp/Miniconda3.sh" | md5sum -c - && \
+#     bash /tmp/Miniconda3.sh -bfp /miniconda3 && \
+#     rm /tmp/Miniconda3.sh
 
-ENV PATH=/miniconda3/bin:${PATH}
+
+# ENV PATH=/miniconda3/bin:${PATH}
+
+
+RUN curl -L -o ~/miniforge3.sh https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE3_VERSION}/Miniforge3-${MINIFORGE3_VERSION}-Linux-x86_64.sh \
+ && chmod +x ~/miniforge3.sh \
+ && ~/miniforge3.sh -b -p /opt/conda \
+ && rm ~/miniforge3.sh \
+ && /opt/conda/bin/conda install -c conda-forge \
+    python=${PYTHON_VERSION} \
+    cython \
+    "mkl<2024.1.0" \
+    mkl-include \
+    parso \
+    scipy \
+    numpy \
+    typing \
+    h5py \
+    libgcc \
+    cmake \
+    packaging \
+    "awscli<2" \
+    boto3 \
+    pyyaml \
+    packaging \
+    conda-content-trust \
+    charset-normalizer \
+    requests \
+    "idna>=3.7" \
+    "tqdm>=4.66.3" \
+    "zstandard>=0.22.0" \
+ && /opt/conda/bin/conda clean -afy \
+ && rm -rf /etc/apt/sources.list.d/*
+
+# symlink pip for OS use
+RUN pip install --upgrade pip --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+ && ln -s /opt/conda/bin/pip /usr/local/bin/pip3
+
+# Install Common python packages
+RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -U \
+    opencv-python \
+    "pyopenssl>=24.0.0" \
+    # patch CVE
+    "cryptography>=42.0.5" \
+    "ipython>=8.10.0,<9.0" \
+    "urllib3>=1.26.18,<2" \
+    "prompt-toolkit<3.0.39"
+
+
+
+
+
 
 # Install MLIO with Apache Arrow integration
 
