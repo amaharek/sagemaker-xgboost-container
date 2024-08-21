@@ -11,8 +11,9 @@ RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py && \
     pip install gevent && \
         rm -rf /root/.cache
 
-RUN pip install -r requirements.txt
-
+COPY requirements.txt /requirements.txt
+RUN python3 -m pip install -r /requirements.txt && rm /requirements.txt
+        
 # Set environment variables
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
