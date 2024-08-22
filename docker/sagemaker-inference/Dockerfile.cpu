@@ -40,11 +40,12 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 RUN update-alternatives --install /usr/local/bin/pip pip /usr/local/bin/pip3 1
 
 # Install MXNet, MMS, and SageMaker Inference Toolkit to set up MMS
-COPY requirements.txt /requirements.txt
-RUN python3 -m pip3 install -r /requirements.txt && rm /requirements.txt
  
 RUN pip3 --no-cache-dir install mxnet \
                                 retrying
+COPY requirements.txt /requirements.txt
+RUN python3 -m pip3 install -r /requirements.txt && rm /requirements.txt
+                                
 
 # Copy entrypoint script to the image
 COPY dockerd-entrypoint.py /usr/local/bin/dockerd-entrypoint.py
