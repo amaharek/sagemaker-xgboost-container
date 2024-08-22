@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+# FROM ubuntu:20.04
+FROM python:3.10
 
 # Set a docker label to advertise multi-model support on the container
 LABEL com.amazonaws.sagemaker.capabilities.multi-models=true
@@ -10,13 +11,14 @@ LABEL com.amazonaws.sagemaker.capabilities.accept-bind-to-port=true
 RUN apt-get update && apt-get upgrade -y && apt-get clean
 
 # Python package management and basic dependencies
-RUN apt-get install -y curl python3.10 python3.10-dev python3.10-distutils
+RUN apt-get install -y curl 
+# python3.10 python3.10-dev python3.10-distutils
 
 # Register the version in alternatives
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
+# RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
 
 # Set python 3 as the default python
-RUN update-alternatives --set python /usr/bin/python3.10
+# RUN update-alternatives --set python /usr/bin/python3.10
 
 # Install necessary dependencies for MMS and SageMaker Inference Toolkit
 RUN apt-get -y install --no-install-recommends \
