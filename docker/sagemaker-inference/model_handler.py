@@ -57,11 +57,11 @@ class ModelHandler(object):
         :return: list of preprocessed model input data
         """
         # Take the input data and pre-process it make it inference ready
-
+        processed_input = input_data[0]['body']
         if content_type == "text/csv":
-            print("input_data {}".format(input_data))
-            print("type(input_data) {}".format(type(input_data)))
-            df = pd.read_csv(StringIO(input_data), header=None, index_col=False, sep=",")
+            print("processed_input {}".format(processed_input))
+            print("type(processed_input) {}".format(type(processed_input)))
+            df = pd.read_csv(StringIO(processed_input), header=None, index_col=False, sep=",")
             return df
         else:
             raise ValueError("{} not supported by script!".format(content_type))
