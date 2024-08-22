@@ -5,6 +5,7 @@ import json
 import logging
 import os
 from collections import namedtuple
+from io import StringIO
 
 # import mxnet as mx
 import mlflow 
@@ -18,6 +19,7 @@ from sagemaker_inference import (
     errors,
     utils,
 )
+import pandas as pd 
 
 logger = logging.getLogger(__name__)
 
@@ -56,23 +58,12 @@ class ModelHandler(object):
         """
         # Take the input data and pre-process it make it inference ready
 
-        img_list = []
-        for idx, data in enumerate(request):
-            # Read the bytearray of the image from the input
-            img_arr = data.get("body")
+        if content_type == "text/csv":
+            df = pd.read_csv(StringIO(input_data), header=None, index_col=False, sep=",")
+            return df
+        else:
+            raise ValueError("{} not supported by script!".format(content_type))
 
-            # Input image is in bytearray, convert it to MXNet NDArray
-            img = mx.img.imdecode(img_arr)
-            if img is None:
-                return None
-
-            # convert into format (batch, RGB, width, height)
-            img = mx.image.imresize(img, 224, 224)  # resize
-            img = img.transpose((2, 0, 1))  # Channel first
-            img = img.expand_dims(axis=0)  # batchify
-            img_list.append(img)
-
-        return img_list
 
     def predict_fn(self, model_input):
         """
@@ -81,7 +72,7 @@ class ModelHandler(object):
         :return: list of inference output in NDArray
         """
         # Do some inference call to engine here and return output
-        return self.model.predict(model_input)
+        return self.model.inplace_predict(model_input)
 
 
     def output_fn(self, prediction, accept):
