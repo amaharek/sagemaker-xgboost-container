@@ -9,9 +9,10 @@ LABEL com.amazonaws.sagemaker.capabilities.accept-bind-to-port=true
 
 # Upgrade installed packages
 RUN apt-get update && apt-get upgrade -y && apt-get clean  \ 
-    && apt install software-properties-common \ 
+    && apt install -y software-properties-common \ 
     && add-apt-repository ppa:deadsnakes/ppa \ 
-    && apt update -y 
+    && apt update -y
+
 
 # Python package management and basic dependencies
 RUN apt-get install -y curl \
