@@ -50,7 +50,7 @@ class ModelHandler(object):
         self.model = mlflow.xgboost.load_model(model_dir)
 
 
-    def input_fn(self, input_data, content_type):
+    def input_fn(self, input_data, content_type="text/csv"):
         """
         Transform raw input into model input data.
         :param request: list of raw requests
