@@ -59,6 +59,8 @@ class ModelHandler(object):
         # Take the input data and pre-process it make it inference ready
 
         if content_type == "text/csv":
+            print("input_data {}".format(input_data))
+            print("type(input_data) {}".format(type(input_data)))
             df = pd.read_csv(StringIO(input_data), header=None, index_col=False, sep=",")
             return df
         else:
